@@ -47,6 +47,9 @@ def main():
                         default=None,
                         help='intermediate file for CC \
                             indices (uncached by default)')
+    parser.add_argument('--indexname',
+                        default='CC-MAIN-2019-39-index',
+                        help='name of CC index')
     parser.add_argument('--limit', type=int,
                         default=10,
                         help='number of pages to extract (default 10)')
@@ -64,11 +67,11 @@ def main():
             with open(args.indexfile, 'r') as infile:
                 indices = json.loads(infile.read())
         else:
-            indices = list(get_warc_indices_for_domain(args.domain))
+            indices = list(get_warc_indices_for_domain(args.domain, args.indexname))
             with open(args.indexfile, 'w') as outfile:
                 outfile.write(json.dumps(indices))
     else:
-        indices = list(get_warc_indices_for_domain(args.domain))
+        indices = list(get_warc_indices_for_domain(args.domain, args.indexname))
 
     # select random 'limit' number of indices
     # Retrieve their text and write

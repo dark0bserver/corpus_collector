@@ -22,6 +22,7 @@ Resources:
       Environment:
         Variables:
           PAGE_FETCH_LIMIT: 10
+          CC_INDEX: 'CC-MAIN-2019-39-index'
       Tags:
         corpus_collector: ''
   CorpusCollectorFetchExtractedText:

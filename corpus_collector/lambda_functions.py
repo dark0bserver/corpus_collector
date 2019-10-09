@@ -16,8 +16,12 @@ def queue_domain(event, context):
     if 'limit' in event:
         fetch_limit = int(event['limit'])
 
+    index = os.environ['CC_INDEX']
+    if 'index' in event:
+        index = event['index']
+
     # pull all entries for this domain from index
-    indices = list(get_warc_indices_for_domain(domain))
+    indices = list(get_warc_indices_for_domain(domain, index))
 
     # sample returned indices to 'limit' (where they exceed 'limit')
     sampled_indices = indices

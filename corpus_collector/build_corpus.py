@@ -30,13 +30,13 @@ import io
 
 def get_warc_indices_for_domain(
         domain,
-        index='CC-MAIN-2019-39-index',
+        index,
         limit=None):
     """
     Get the list of WARC indicies for a domain of interest.
 
     domain -- Domain of interest in the form of example.com or sub.example.com
-    index -- Common crawl index to search (default CC-MAIN-2019-39-index)
+    index -- Common crawl index to search
     limit -- maximum number of pages to randomly pull from index
                 (default 'None' meaning all of them)
     """
