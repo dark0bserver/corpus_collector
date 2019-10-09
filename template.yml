@@ -1,0 +1,55 @@
+AWSTemplateFormatVersion: 2010-09-09
+Transform: 'AWS::Serverless-2016-10-31'
+Resources:
+  CorpusCollectorQueueDomain:
+    DependsOn:
+     - ExtractedCorpusTable
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      Description: >-
+        Function to query Common Crawl index for relevant cached WARC
+        file entries and launch async fetch operations for related WET
+        content.
+      FunctionName: queue_domain
+      Handler: lambda_functions.queue_domain
+      Runtime: python3.7
+      CodeUri: ./corpus_collector
+      MemorySize: 128
+      Timeout: 120
+      Policies:
+        - LambdaInvokePolicy:
+            FunctionName: !Ref CorpusCollectorFetchExtractedText
+      Environment:
+        Variables:
+          PAGE_FETCH_LIMIT: 10
+      Tags:
+        corpus_collector: ''
+  CorpusCollectorFetchExtractedText:
+    DependsOn:
+     - ExtractedCorpusTable
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      Description: >-
+        Function for extracting WARC Extracted Text from common crawl bucket.
+      FunctionName: fetch_wet_entry
+      Handler: lambda_functions.fetch_wet_entry
+      Runtime: python3.7
+      CodeUri: ./corpus_collector
+      MemorySize: 2048
+      Timeout: 420
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref ExtractedCorpusTable
+        - S3ReadPolicy:
+            BucketName: commoncrawl
+      Tags:
+        corpus_collector: ''
+  ExtractedCorpusTable:
+    Type: AWS::Serverless::SimpleTable
+    Properties:
+      TableName: page_text
+      PrimaryKey:
+        Name: url
+        Type: String
+      Tags:
+        corpus_collector: ''
