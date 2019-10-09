@@ -22,15 +22,18 @@ Corpus Collector has been prepared as an installable python module. From the clo
 $ pip install .
 ```
 Corpus Collector is now available as a command and can be invoked as below.
+```sh
+$ corpus_collector cnn.com --limit 5
+```
 
 #### AWS SAM Deployment
 _This assumes that the AWS SAM command-line tool `aws-sam-cli` is already present in the local environment and that appropriate permissions have been granted to the deploying role._
 https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/serverless-sam-template-publishing-applications.html
 
-**Create code deployment bucket:**
+##### Create code deployment bucket
 Prior to deployment, create an S3 bucket to hold the deployed code. Then replace `$DEPLOYMENT_CODE_BUCKET` in the below example with the name of that bucket.
 
-**Build and deploy**
+##### Build and deploy
 The following steps build, package, and deploy the serverless application to a stack named `corpus-collector`. Feel free to update to taste.
 ```sh
 $ cd corpus_collector
@@ -39,7 +42,7 @@ $ sam package --s3-bucket $DEPLOYMENT_CODE_BUCKET --output-template-file deploy-
 $ sam deploy --template-file deploy-template.yml --stack-name corpus-collector --capabilities CAPABILITY_IAM
 ```
 
-**Usage**
+##### Usage
 To invoke the collection harness for a given domain, call the AWS lambda function with a json dictionary containing a `domain` key carrying the domain of interest.
 ```sh
 $ aws lambda invoke --function-name queue_domain --payload '{"domain": "cnn.com", "limit": 5}' outfile.txt
