@@ -34,9 +34,8 @@ https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/s
 Prior to deployment, create an S3 bucket to hold the deployed code. Then replace `$DEPLOYMENT_CODE_BUCKET` in the below example with the name of that bucket.
 
 ##### Build and deploy
-The following steps build, package, and deploy the serverless application to a stack named `corpus-collector`. Feel free to update to taste.
+The following steps build, package, and deploy the serverless application to a stack named `corpus-collector`. Feel free to update to taste. From the cloned repository:
 ```sh
-$ cd corpus_collector
 $ sam build
 $ sam package --s3-bucket $DEPLOYMENT_CODE_BUCKET --output-template-file deploy-template.yml
 $ sam deploy --template-file deploy-template.yml --stack-name corpus-collector --capabilities CAPABILITY_IAM
