@@ -13,5 +13,5 @@ setup(
     install_requires=[
         'requests',
         'boto3'
-    ]
+    ],
 )
